@@ -89,6 +89,12 @@ add_executable(
 )
 
 add_executable(
+  octomap_to_gridmap
+  src/octomap_to_gridmap_node.cpp
+  src/OctomapToGridmap.cpp
+)
+
+add_executable(
   move_demo
   src/move_demo_node.cpp
 )
@@ -137,6 +143,12 @@ target_link_libraries(
 
 target_link_libraries(
   octomap_to_gridmap_demo
+  ${catkin_LIBRARIES}
+  ${OCTOMAP_LIBRARIES}
+)
+
+target_link_libraries(
+  octomap_to_gridmap
   ${catkin_LIBRARIES}
   ${OCTOMAP_LIBRARIES}
 )
