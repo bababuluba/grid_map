@@ -42,7 +42,7 @@ class OctomapToGridmap
   */
   bool readParameters();
 
-  void convertAndPublishMap(const octomap_msgs::Octomap& msg);
+  void convertAndPublishMap(const octomap_msgs::OctomapConstPtr& msg);
 
  private:
 

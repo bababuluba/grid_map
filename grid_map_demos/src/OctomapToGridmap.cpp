@@ -44,15 +44,20 @@ bool OctomapToGridmap::readParameters()
   return true;
 }
 
-void OctomapToGridmap::convertAndPublishMap(const octomap_msgs::Octomap& msg)
+void OctomapToGridmap::convertAndPublishMap(const octomap_msgs::OctomapConstPtr& msg)
 {
 
-
+    ROS_INFO("callback!%d, %s", msg->binary, msg->id.c_str());
   // creating octree
-  octomap::OcTree* octomap = nullptr;
-  octomap::AbstractOcTree* tree = octomap_msgs::msgToMap(msg);
+  octomap::ColorOcTree* octomap = nullptr;
+  octomap::AbstractOcTree* tree = octomap_msgs::msgToMap(*msg);
+
+
   if (tree) {
-    octomap = dynamic_cast<octomap::OcTree*>(tree);
+      ROS_INFO("convert!%d, %f",tree->size(), tree->getResolution());
+    octomap = dynamic_cast<octomap::ColorOcTree*>(tree);
+    ROS_INFO("is");
+    ROS_INFO("bad %d", octomap->size());
   } else {
     ROS_ERROR("Failed to call convert Octomap.");
     return;
@@ -79,7 +84,7 @@ void OctomapToGridmap::convertAndPublishMap(const octomap_msgs::Octomap& msg)
     ROS_ERROR("Failed to call convert Octomap.");
     return;
   }
-  map_.setFrameId(msg.header.frame_id);
+  map_.setFrameId(msg->header.frame_id);
 
   // Publish as grid map.
   grid_map_msgs::GridMap gridMapMessage;
